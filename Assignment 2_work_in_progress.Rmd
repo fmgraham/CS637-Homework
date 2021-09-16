@@ -67,7 +67,7 @@ cor(x_guess,y_guess, use = "na.or.complete")
 ```
 ## Problem 2
 Complete Chapter 2, Exercise 2 from the textbook.
-
+I am adding a comment at line 70
 #### Part 2A
 ```{r}
 Shiraz_ml <- c(39,35,16,18,7,22,13,18,20,9,-12,-11,-19,-9,-2,16)
