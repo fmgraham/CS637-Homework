@@ -1,0 +1,186 @@
+---
+student: Florence Graham
+title: "Assignment 1"
+date: "August 30, 2021"
+output: html_document
+---
+#### Due Date: September 13, 2021
+
+### Instructions
+Please complete each problem below to the best of your ability. Where plain text is required, you can type directly into the .RMD file. Where code and output is required, be sure to include all code in the code chunks provided. The assignment must be submitted, via email, as both the .RMD file and the knitted file (whether .html or .pdf, whichever is best for yourself)
+
+## Problem 0
+Run through the "Decomposition in R" section from Lecture 1.Rmd  
+
+Copy and paste each code block from that lecture below. Run each code chunk and ensure they run correctly. Include the output here (the output will be automatically produced when you knit this document)
+
+
+###############################################
+####### Copy and Paste Code Chunks Here #######
+```{r}
+setwd("C:/Users/Florence Graham/Documents/Saint Elizabeth University/CS637 Time Series and Forecasting/CS-637-Time-Series-and-Forecasting-/Lecture Notes")
+Elec = read.csv("data/elec.csv") 
+Elec.ts <- ts(Elec, start = 1958, freq = 12)
+
+```
+Visualize the additive decomposition
+```{r}
+plot(decompose(Elec.ts))
+```
+Next, visualize the multiplicative decomposition
+```{r}
+Elec.decom <- decompose(Elec.ts, type = "mult")
+plot(Elec.decom)
+```
+Finally, the trend multiplied by the seasonal, which does not account for randon noise
+```{r}
+Trend <- Elec.decom$trend
+Seasonal <- Elec.decom$seasonal
+ts.plot(cbind(Trend, Trend * Seasonal), lty = 1:2)
+```
+
+
+
+
+
+
+
+###############################################
+
+
+
+### Problem 0A
+Given the *additive* and the *multiplicative* decomposition models, and what we know about each (reference both the textbook and notes for more infor between the two), which decomposition model seems to be the best fit for the data?
+
+######### Your answer as plain text below #########
+
+THe multiplicative model seems to be the best fit for the data. It smooths out the spikes in electricity usage show in the random graph.
+
+####################################################
+####################################################
+
+## Problem 1
+Complete Chapter 1, Exercise 1 from the textbook. You can find both the `beer.csv` and the `choc.csv` files in the `Lecture Notes/data` folders.
+
+#### Part 1A
+```{r}
+setwd("C:/Users/Florence Graham/Documents/Saint Elizabeth University/CS637 Time Series and Forecasting/CS-637-Time-Series-and-Forecasting-/Lecture Notes")
+
+Beer.month <- read.csv("data/beer.csv", header = T)
+Choc.month <- read.csv("data/choc.csv", header = T)
+#Beer.month
+#Choc.month
+```
+
+
+```{r}
+attach(Beer.month)
+class(Beer.month)
+attach(Choc.month)
+class(Choc.month)
+```
+
+
+Agrregate annual 
+```{r}
+Beer.month.ts <- ts(beer, start = c(1958, 1), end = c(1990, 4), freq = 12)
+Choc.month.ts <- ts(choc, start = c(1958, 1), end = c(1990, 4), freq = 12)
+```
+```{r}
+Beer.ts <- ts(beer, start = 1958, freq = 12)
+```
+
+
+```{r}
+Beer.quarterly.ts <- ts(beer, start = c(1958, 2, end = c(1990, 4),  freq = 4))
+Choc.quarterly.ts <- ts(choc, start = c(1958, 2, end = c(1990, 4), freq = 4))
+```
+```{r}
+Beer.annual.ts <- aggregate(Beer.month.ts, start = c(1958, 1))
+Choc.annual.ts <- aggregate(Choc.month.ts, start = c(1958, 1))
+```
+```{r}
+layout(1:2)
+plot(Beer.month.ts, ylab = "Monthly Beer.ts")
+plot(Beer.annual.ts, ylab = "Annual Beer.ts")
+
+```
+
+
+```{r}
+layout(1:2)
+plot(Choc.month.ts, xlab = "Month/Yr", ylab = "Choc in tonnes")
+plot(Choc.annual.ts, ylab = "Choc in tonnes", xlab = "Year")
+
+```
+
+#### ANSWER: seasonal boxplot for Beer
+
+```{r}
+
+boxplot(Beer.month.ts ~ cycle(Beer.month.ts),main="Monthly beer production",
+ylab="Beer Ml",
+xlab="Month", parse =TRUE,
+col="grey",
+border="blue")
+```
+
+```{r}
+boxplot(Choc.month.ts ~ cycle(Choc.month.ts),main="Monthly Chocolate production",
+ylab="Choc per tonnes",
+xlab="Month", parse =TRUE,
+col="grey",
+border="blue")
+```
+ANSWER: 
+
+Beer production is highest in the months of Oct-Dec and lowest during June-July. This is a seasonal variation.
+Hops, an important ingredient in beer production is generally picked in late Aug and early Sept.
+It is milled, distributed for use by Sept-Dec. Production can ramp up. Certain barley are harvested April-May while summer barley
+is harvested in Sept. Rye is harvested May-Aug. Therefore, in my opinion there's more fresh, raw materials available for beer production ahead of demand.
+Beer production increases approx 5-6 months in advance of increased
+demand for beer which is most popular during the Spring. The product can still maintain flavor and favor ability for the duration. We know, beer sales are up in March thus demonstrating higher demand and consumption during the period beginning March around St Patrick's Day and March Madness. 
+Also according to Brewers Assoc consumers interest in seasonal beers ie pumpkin beers drops after Oct while demand for stouts goes up in Nov-Dec. Consumer preferences change throughout the year.
+Thus, breweries adjust production accordingly. This occurrence is shown
+The annual plot shows a trend upwards with seasonal variation and a leveling off in 1980 followed by a peak in 1982 and finally a second drop which levels off until the end of 1980's
+
+Chocolate production reveals a few outliers between April-Oct with the exception of July. Production depends mainly on the amount of raw material such as cocoa available for processing.
+In Australia cocoa yields occur throughout the year with January having the lowest yield and a noticeable drop in chocolate production for that month. The seasonal trend on the graph reveals  
+a fairly consistent cocoa production throughout the year with small seasonal variations with the exception of January.
+Seasonal variations could be due to many reasons such as rainfall, drought, plant disease, quality of seedlings, new pod splitting machinery or technology just to name a few. Outliers can be due to type of fertilizers, pest control, blight, failure/success of a new hybrid seeds.  The trend for chocolate production is upwards over the years. 
+
+
+
+#### Part 1B  Decompose the series into the components trend, seasonal effect, and residuals, and plot the decomposed series. Produce a plot of the trend with a superimposed seasonal effect.
+```{r}
+plot(decompose(Beer.month.ts))
+
+```
+
+
+```{r}
+Beer.decom <- decompose(Beer.month.ts, type = ("mult"))
+plot(Beer.decom)
+```
+
+
+```{r}
+Trend <- Beer.decom$trend
+Seasonal <- Beer.decom$seasonal
+ts.plot(cbind(Trend, Trend * Seasonal), lty = 1:2)
+```
+
+```{r}
+plot(decompose(Choc.month.ts))
+```
+
+```{r}
+Choc.decom <- decompose(Choc.month.ts, type = "mult")
+plot(Choc.decom)
+```
+
+```{r}
+Trend <- Choc.decom$trend
+Seasonal <- Choc.decom$seasonal
+ts.plot(cbind(Trend, Trend * Seasonal), lty = 1:2)
+```

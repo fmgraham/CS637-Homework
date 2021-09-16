@@ -1,0 +1,179 @@
+---
+title: "Assignment 2"
+date: "September 13, 2021"
+output: html_document
+---
+#### Due Date: September 27, 2021
+
+### Instructions
+Please complete each problem below to the best of your ability. Where plain text is required, you can type directly into the .RMD file. Where code and output is required, be sure to include all code in the code chunks provided. The assignment must be submitted, via email, as both the .RMD file and the knitted file (whether .html or .pdf, whichever is best for yourself)
+
+## Problem 1
+Complete Chapter 2, Exercise 1 from the textbook. You can find both the `varnish.csv` and the `guesswhat.csv` files in the `Lecture Notes/data` folders.
+
+#### Part 1A
+```{r}
+setwd("C:/Users/Florence Graham/Documents/Saint Elizabeth University/CS637 Time Series and Forecasting/CS-637-Time-Series-and-Forecasting-/Lecture Notes")
+
+Varnish <- read.csv(file = "data/varnish.csv", header = T)
+#Varnish 
+#Guesswhat
+```
+```{r}
+DryingTime <- Varnish$x
+AmtCatalyst <- Varnish$y
+plot(DryingTime,AmtCatalyst, ylab = 'drying time', xlab = 'amt of catalyst', pch = 1, col = 'red')
+```
+```{r}
+plot(ts(Varnish))
+```
+
+
+```{r}
+cov(DryingTime,AmtCatalyst)
+```
+#AnSWER: correlation of -0.2528782 for Varnish shows there is a low, negative correlation between #increasing catalyst in the petri dish and decreasing the drying time
+
+```{r}
+cor(DryingTime,AmtCatalyst, use = "everything")
+```
+`
+#### Part 1B
+#Scatterplot for guesswhat.csv
+
+#Guesswhat when x = 28; y =-9 and y = 10 and when x = May-48 then y = NA,
+#when x = 28 then y = -18 and x = -28 then y = -18
+
+```{r}
+setwd("C:/Users/Florence Graham/Documents/Saint Elizabeth University/CS637 Time Series and Forecasting/CS-637-Time-Series-and-Forecasting-/Lecture Notes")
+
+Guesswhat <- read.csv(file = "data/guesswhat.csv", header = T)
+#Guesswhat$y
+x_guess <- as.numeric(Guesswhat$x)
+#as.numeric(x_guess)
+#as.numeric(y_guess)
+y_guess <- Guesswhat$y
+x_guess
+y_guess
+
+```
+```{r}
+plot(x_guess,y_guess, ylab = 'y guesswhat', xlab = 'x guesswhat', pch = 1, col = 'blue')
+```
+#ANSWER: correlation of 0.1027555 for Guesswhat file indicates there a low, positive correlation between x and y pairs.
+I do not have a guess as to what this file refers to.
+```{r}
+cor(x_guess,y_guess, use = "na.or.complete")
+```
+## Problem 2
+Complete Chapter 2, Exercise 2 from the textbook.
+
+#### Part 2A
+```{r}
+Shiraz_ml <- c(39,35,16,18,7,22,13,18,20,9,-12,-11,-19,-9,-2,16)
+
+Char_ml <- c(47,-26,42,-10,27,-8,16,6,-1,25,11,1,25,7,-5,3)
+Shiraz_ml
+Char_ml
+```
+#CREATE ts. time series. I plotted Shiraz using two different functions and got the same graph results
+```{r}
+Shiraz_ml.ts <- ts(Shiraz_ml, start = 1, end = 16, frequency = 1)
+#Shiraz_ml.ts
+```
+```{r}
+Char_ml.ts <- ts(Char_ml, start = 1, end = 16, frequency = 1)
+#Char_ml.ts
+```
+```{r}
+ts.plot(Shiraz_ml.ts, ylab="Shiraz volume")
+```
+```{r}
+plot(ts(Shiraz_ml))
+```
+```{r}
+ts.plot(Shiraz_ml.ts, lag(Char_ml.ts, 1), ylab="Shiraz volume")
+```
+```{r}
+ts.plot(Char_ml.ts, lag(Char_ml.ts, 1), ylab="Chiraz volume")
+```
+#### Part 2B lag 1 scatter plots
+
+```{r}
+plot(Shiraz_ml)
+```
+```{r}
+#lag.plot(Shiraz_ml, lags =1, diag = TRUE, diag.col = "red", type = "p")
+plot(Shiraz_ml[1:16],Shiraz_ml[2:17], ylab = "Shiraz volume", xlab = " time", col = "red")
+```
+```{r}
+plot(Char_ml, ylab = "Char volume", xlab = " time", col = "blue")
+```
+```{r}
+plot(Char_ml[1:16], Char_ml[2:17], ylab = "Char volume", xlab = "time", col = "green")
+```
+
+#### Part 2C ACF Autocorrelation function. lag +1 
+Based upon the acf value = 0.665 for Shiraz production
+we have reason to believe there's a 'fairly' strong, positive, correlation between the present series of objects(Shiraz's volume) and its past series of objects(Shiraz's volume)  
+
+In the case of Chardonnay production the acf value = -0.711248 indicates there is a strong, negative correlation between the present Chardonnay volume and the past Chardonnay volume
+```{r}
+acf(Shiraz_ml, plot = F)$acf[2]
+acf(Shiraz_ml, type = c("covariance"), plot = F)$acf[2]
+
+```
+```{r}
+acf(Char_ml, plot = F)$acf[2]
+acf(Char_ml, type = c("covariance"), plot = F)$acf[2]
+```
+
+## Problem 3
+Complete Chapter 2, Exercise 3 from the textbook.
+
+#### Part 3A
+```{r}
+setwd("C:/Users/Florence Graham/Documents/Saint Elizabeth University/CS637 Time Series and Forecasting/CS-637-Time-Series-and-Forecasting-/Lecture Notes")
+
+Global <- read.csv(file = "data/Global.csv", header = FALSE)
+plot(Global)
+```
+
+#### Part 3B
+```{r}
+Global.ts <- ts(Global, st = c(1856, 1), end = c(2005, 12), fr = 12)
+Global.annual <- aggregate(Global.ts, FUN = mean)
+```
+```{r}
+#plot(Global.ts)
+
+```
+```{r}
+#note I get error msg when executing code on p17 in textbook so i changed it 
+plot(Global.ts[,c(1:10)], ylab="yy")
+```
+```{r}
+#plot(Global.ts)
+```
+```{r}
+plot(Global.annual[,c(1:10)], ylab="yy")
+```
+```{r}
+#Global.decom <-decompose(Global.ts, type = "mult")
+#plot(Global.decom)
+```
+## Problem 4
+#Complete Chapter 2, Exercise 4 from the textbook.
+
+
+
+
+
+
+
+
+
+
+
+
+

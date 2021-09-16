@@ -1,0 +1,430 @@
+
+---
+title: "Assignment 1"
+output:
+  html_document:
+    df_print: paged
+---
+
+# A word about R markdown
+
+The assignments for our online R training course will all take the form of R
+markdown documents like this one. These are files ending in '.Rmd' that combine
+R code blocks with plain text, such as this paragraph that you're reading now.
+
+To run the R code blocks you need to have this R markdown file open in RStudio.
+If you're reading this in RStudio right now then all is good and well. If not,
+please start RStudio and open this file using the 'Open File...' option from the
+'File' menu.
+
+Also, it might be a good idea to create a folder on your computer in which to
+store this assignment and the assignments for the coming weeks, along with some
+data files that will be provided for use in some of the future assignments.
+
+In these assignments we will describe what we're asking you to do in some plain
+text which will be followed by an empty code block in which you will write the
+R commands as your answers to the exercise.
+
+Here's an example. Suppose we ask you to add two numbers, 34 and 102, together.
+The empty code block where you would carry out this calculation would look like
+this:
+
+```{r}
+
+```
+
+It should appear as a grey box with three small grey and green icons at the top
+on the right hand side.
+
+You can fill in the answer as follows:
+
+```{r}
+34 + 102
+```
+
+You can add extra lines as necessary by hitting the 'Return' key.
+
+Now to run this command you can click on the green arrow or triangle icon, the
+one that is furthest right and points right-ward. If you hover over this icon,
+you should get a tool tip saying 'Run current chunk'. Click on this and see what
+happens.
+
+You should see the answer printed just below the code block, much as you would
+have seen in the Console prefixed with the (hopefully) now familiar '[1]' that
+indicates this is a vector and you're looking at the first element.
+
+In this first assignment, we are deliberately going to restrict our use of the
+markdown format to just a few features. You'll notice the header containing the
+title, author and date and also section headings starting with '#'. Other than
+that we will just use sections of plain text and R code blocks or chunks as
+they're more properly known.
+
+As we go through successive assignments during the course, we'll introduce more
+features of R markdown. It's a great way of writing R code for analyzing and
+visualizing your data that lets you present your work in beautiful,
+self-describing reports, a sure-fire way to impress your group leader and
+colleagues alike.
+
+R markdown is really easy to learn and will let you do a lot of cool things.
+Our course website was created with R markdown documents that are not that
+much more complicated than the file you're reading right now for this
+assignment.
+
+Now on with this week's exercises.
+
+# Using R as a calculator
+
+1. Convert the following temperatures given in degrees Fahrenheit to Celsius:
+45, 96, 451
+
+```{r}
+(45-32) * 5/9
+```
+```{r}
+(96-32) * 5/9
+```
+
+
+```{r}
+(451-32) * 5/9
+```
+
+Hint: just do what you'd normally do if you can't remember the formula for
+converting between Celsius and Fahrenheit (Google in my case).
+
+If you like, you can experiment with getting your R code right in the Console
+window first and then copy it into the code chunk above when you're happy with
+it. It's not crucial and getting it wrong in the R markdown is no big deal.
+You can always fix any problems (the most likely being forgetting to use
+parentheses or brackets in the right place) and re-run your code using the
+green arrow/triangle icon.
+
+Check you've got the right answer by finding a web page with a handy
+conversion tool.
+
+2. Similarly, convert the following temperatures in degrees Celsius to
+Fahrenheit: -65, 100, 20
+
+
+```{r}
+(-65 * 9/5) +32
+
+```
+```{r}
+(100 * 9/5) + 32
+```
+
+
+```{r}
+(20 * 9/5) +32
+```
+
+# Generating sequence vectors
+
+3. Generate a sequence of numbers representing the days at which you take a
+measurement or a sample at 5-day intervals for about a year.
+
+```{r}
+1:73 * 5
+  
+
+```
+
+Your friendly neighbourhood statistician has suggested that there should be an R
+function to do that. What is the function and how do you find out about it and
+what is the code you will use to create the sequence? Check the resulting vector.
+
+Answer: use Help to find information on R functions which generate a sequence 
+??sequence
+Answer: function below
+```{r}
+seq(0, 367, by = 5)
+```
+
+
+```{r}
+```
+
+
+```{r}
+##notes
+st <- as.Date("1998-12-17")
+en <- as.Date("2000-1-7")
+ll <- seq(en, st, by = "-1 month")
+rev(ll[ll > st & ll < en])
+```
+
+
+
+```{r}
+## notes
+seq(0, 1, length.out = 11)
+seq(stats::rnorm(20)) # effectively 'along'
+seq(1, 9, by = 2)     # matches 'end'
+seq(1, 9, by = pi)    # stays below 'end'
+seq(1, 6, by = 3)
+seq(1.575, 5.125, by = 0.05)
+seq(17) # same as 1:17, or even better seq_len(17)
+
+```
+
+# Looking at types of objects
+
+4. Run the code below and use the typeof() and/or class() function (check it's
+help page) and see how R treats each newly-created vector?
+
+```{r}
+num_char <- c(1, 2, 3, "a")
+num_logical <- c(1, 2, 3, TRUE)
+char_logical <- c("a", "b", "c", TRUE)
+tricky <- c(1, 2, 3, "4")
+```
+
+```{r}
+num_char
+num_logical
+char_logical
+tricky
+```
+
+Create a new code chunk to test each of the vectors in a separate block. You
+can do this by using the 'Insert' menu just at the top of the pane for this
+markdown file and selecting R for an R code chunk, or by using the keyboard
+shortcut (on a Mac this is cmd-alt-i).
+ANSWER: try using is. to verify an object's type  ex is.integer(days)
+
+```{r}
+??typeof
+??class
+```
+
+
+```{r}
+num_char
+typeof(num_char)
+class(num_char)
+```
+```{r}
+typeof(num_char)
+is.character(num_char)
+```
+```{r}
+num_logical
+typeof(num_logical)
+class(num_logical)
+```
+```{r}
+typeof(num_logical)
+is.double(num_logical)
+```
+
+```{r}
+char_logical
+typeof(char_logical)
+class(char_logical)
+```
+
+
+```{r}
+typeof(char_logical)
+is.character(char_logical)
+```
+
+
+```{r}
+tricky
+typeof(tricky)
+class(tricky)
+```
+
+
+```{r}
+typeof(tricky)
+is.character(tricky)
+```
+
+You should find that R coerces the data to a lowest common denominator - can you
+work out the hierarchy?
+
+ANSWER: typeof() tells of the how the object is stored, lowest to highest common denominator is; integer, double and character.
+This relates to the amount of space for storing the value and speed at accessing the value
+
+# Plotting data
+
+5. You have been asked to plot a graph of counts data measured over several
+days. The Principal Investigator has requested that certain symbols be used for
+each dataset being plotted (he's a bit like that!). What command would you use
+to find out the parameter which sets this for the plot.default command and what
+is the parameter's name?
+Answer: args()  ex. args(plot.default) to find arguments for the function
+Answer:par can be used to set or query graphical parameter as a named list 
+Answer: The R function ggpubr::show_point_shapes() can be used to show the 25 commonly used R pch values.
+Answer: use parameter Plot Character or pch = 0,,,25 to set or change graphing symbols 
+```{r}
+##install.packages("ggpubr")
+ggpubr::show_point_shapes()
+```
+
+```{r}
+days <- c(1, 2, 4, 6, 8, 12, 16)
+counts <- days ^ 2 + rnorm(days, mean = days)
+
+# add your code here
+#ANSWER:
+```
+
+
+```{r}
+days
+```
+```{r}
+counts
+```
+
+```{r}
+plot(counts, days, pch = 12, col = 5)
+```
+```{r}
+??round
+```
+
+Check out what we did in the above example for getting some example counts
+data points. Can you make sense of what is going on here? Look at the help
+page for the `rnorm` function.
+
+ANSWER: rnorm(x, mean =0, sd = 1) density, distribution function, quantile function and random generation for the normal distribution with mean equal to mean and standard deviation equal to sd
+```{r}
+days
+```
+
+Our counts data don't really look like counts as they are not whole numbers.
+Find the function in R that can round these up or down to the closest whole
+number and apply it in the above code chunk.
+ANSWER: use help command ??round. Floor() rounds down/Ceiling() rounds up to nearest higher number
+```{r}
+ceiling(days)
+```
+
+
+```{r}
+counts
+floor(counts)
+ceiling(counts)
+```
+```{r}
+#using ceiling values
+plot(counts, days, pch = 2, col = "red")
+```
+
+# Exploring and summarizing data
+
+6. Your colleague has supplied you with the following table of data (number of
+cells per sample volume):
+
+| Day | LineA | LineB | LineC |
+| --- | ----- | ----- | ----- |
+|  1  |    4  |    5  |   14  |
+|  2  |    9  |   17  |   16  |
+|  3  |    7  |   22  |   10  |
+|  4  |   12  |   20  |   14  |
+|  5  |   23  |   24  |   20  |
+|  6  |    8  |   18  |   12  |
+
+Create some R vectors to hold this data and provide summary statistics for number
+of cells for each cell line. Plot some base R graphs if you like. Describe the
+data.
+```{r}
+Day <- c(1, 2, 3, 4, 5, 6)
+Day
+summary(Day)
+typeof(Day)
+```
+
+```{r}
+LineA <- c(4, 9, 7, 12, 23, 8)
+LineA
+summary(LineA)
+typeof(LineA)
+```
+```{r}
+LineB <- c(5, 17, 22, 20, 24, 18)
+LineB
+summary(LineB)
+typeof(LineB)
+```
+```{r}
+LineC <- c(14, 16, 10, 14, 20, 12)
+LineC
+summary(LineC)
+typeof(LineC)
+```
+Plot base R graphs
+```{r}
+plot(LineA, Day, pch = 6, col = "black")
+```
+```{r}
+#failed experiment at scatterplot and histogram
+#scatterplot(LineA ~ Days, data=LineA)
+#scatterplot(LineA ~ Days, data=LineA, smooth=list(smoother=gamLine))
+#scatterplot(LineA ~ Days, data=LineA,
+#    smooth=list(smoother=quantregLine))
+```
+```{r}
+#hist(students$age)
+#hist(LineA, Day)
+```
+
+You are then provided with assay data that states that LineA had an activity of
+4.2 per cell, LineB an activity of 3.4 and LineC of 1.3.
+
+Use R to calculate the activities of each sample on each day and provide summary
+statistics of activity for each line.
+
+```{r}
+new_LineA <- LineA * 4.2
+LineA
+new_LineA
+
+summary(new_LineA)
+```
+```{r}
+layout(1:2)
+plot(LineA, Day, pch = 7, col = "red")
+plot(new_LineA, Day, pch = 7, col = "purple")
+```
+
+```{r}
+new_LineB <- LineB * 3.4
+LineB
+new_LineB
+
+summary(new_LineB)
+
+```
+```{r}
+layout(1:2)
+plot(LineB, Day, pch = 7, col = "red")
+plot(new_LineB, Day, pch = 7, col = "blue")
+```
+
+
+```{r}
+new_LineC <- LineC * 1.3
+LineC
+new_LineC
+
+summary(new_LineC)
+```
+```{r}
+layout(1:2)
+plot(LineC, Day, pch = 7, col = "blue")
+plot(new_LineC, Day, pch = 7, col = "red")
+```
+
+
+# Creating a report for your assignment
+
+Click on the 'Knit' menu at the top of this file and select either whichever
+option you prefer to create an HTML, PDF or Word document version of your
+assignment. This will run all the code chunks and "knit" the resulting
+results with the surrounding text to produce a report.
